@@ -1,6 +1,9 @@
 package db
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 // Hero contains the database field for Heros table
 type Hero struct {
@@ -25,4 +28,32 @@ func (d *DB) InsertHero(hero *Hero) error {
 	}
 
 	return nil
+}
+
+func (d *DB) GetHeroes() ([]Hero, error) {
+	heroes := []Hero{}
+	rows, err := d.db.Query("SELECT id, name, realName, health, armour, shield FROM heroes")
+	if err != nil {
+		return nil, fmt.Errorf("Couldn't select the heroes from the database: %s", err.Error())
+	}
+	for rows.Next() {
+		hero := Hero{}
+		rows.Scan(&hero.ID, &hero.Name, &hero.RealName, &hero.Health, &hero.Armour, &hero.Shield)
+		heroes = append(heroes, hero)
+	}
+
+	return heroes, nil
+}
+
+func (d *DB) GetHero(id string) (*Hero, error) {
+	hero := Hero{}
+	row := d.db.QueryRow("SELECT id, name, realName, health, armour, shield FROM heroes WHERE id = ?", id)
+	err := row.Scan(&hero.ID, &hero.Name, &hero.RealName, &hero.Health, &hero.Armour, &hero.Shield)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("Couldn't select the record: %s", err.Error())
+	}
+	return &hero, nil
 }

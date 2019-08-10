@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/erbesharat/goverapi/client"
 	"github.com/erbesharat/goverapi/db"
 	"github.com/erbesharat/goverapi/fetch"
+	"github.com/erbesharat/goverapi/server"
 	"github.com/joho/godotenv"
 
 	// Import postgres driver for gorm
@@ -31,12 +31,14 @@ func main() {
 
 	switch os.Args[1] {
 	case "serve":
-		c := client.New()
-
+		handler := server.New(database)
 		log.Printf("[overapi]: Server is running on port %s", os.Getenv("PORT"))
 
-		log.Fatal(http.ListenAndServe(":8080", c.Mux))
+		log.Fatal(http.ListenAndServe(":8080", handler))
 	case "fetch":
+		if err := database.Clear(); err != nil {
+			log.Fatalf("Coudln't refresh the database: %s", err.Error())
+		}
 		err = fetch.FetchHeros(database)
 		if err != nil {
 			log.Fatalf("[overapi]: Couldn't fetch heroes: %s", err.Error())

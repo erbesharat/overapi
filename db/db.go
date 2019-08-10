@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,7 +20,7 @@ func New(path string) (*DB, error) {
 
 	db := &DB{db: database}
 
-	if err := db.Clear(); err != nil {
+	if err := db.createTables(); err != nil {
 		return nil, fmt.Errorf("Couldn't clear the database: %s", err.Error())
 	}
 
@@ -58,6 +59,8 @@ func (d *DB) Clear() error {
 	if err := d.createTables(); err != nil {
 		return fmt.Errorf("Couldn't recreate the tables: %s", err.Error())
 	}
+
+	log.Println("Database got refreshed successfully")
 
 	return nil
 }
