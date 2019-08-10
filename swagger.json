@@ -1,0 +1,120 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Overapi Swagger",
+    "description": "An API to fetch overwatch heroes and abilities data",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/heroes": {
+      "get": {
+        "description": "Returns all hero names and their info.\n",
+        "operationId": "getAllHeroes",
+        "responses": {
+          "200": {
+            "description": "Heroes response"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/heroes/{id}/abilities": {
+      "get": {
+        "description": "Returns a hero's abilities",
+        "operationId": "getHeroAbilities",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of hero to fetch",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Heroes response"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/heroes/{id}": {
+      "get": {
+        "description": "Returns a hero's info",
+        "operationId": "getHero",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of hero to fetch",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Heroes response"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/abilities": {
+      "get": {
+        "description": "Returns all abilites",
+        "operationId": "getAbilities",
+        "responses": {
+          "200": {
+            "description": "Abilities response"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/abilities/{id}": {
+      "get": {
+        "description": "Returns an ability's info",
+        "operationId": "getAbility",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of ability to fetch",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Abilities response"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    }
+  }
+}

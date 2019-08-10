@@ -9,9 +9,6 @@ import (
 	"github.com/erbesharat/goverapi/fetch"
 	"github.com/erbesharat/goverapi/server"
 	"github.com/joho/godotenv"
-
-	// Import postgres driver for gorm
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 func main() {
